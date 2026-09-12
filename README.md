@@ -52,6 +52,22 @@ git clone https://github.com/mkseo1012-pixel/codex-orbit.git && cd codex-orbit &
 
 Codex CLI 인증 정보는 Orbit가 저장하지 않습니다.
 
+### 터미널 설정 명령
+
+대화형 설정 마법사를 실행하면 Codex 경로, Codex 인자, 기본 모델, SQLite 경로, Telegram Bot 토큰, 브라우저 모드를 설정할 수 있습니다.
+
+```bash
+npm run setup
+npm run doctor
+npm start
+```
+
+Telegram 토큰이 설정된 경우 연결 상태를 확인할 수 있습니다.
+
+```bash
+npm run telegram:test
+```
+
 ### Telegram 연결
 
 BotFather에서 Telegram 봇을 만든 뒤 발급받은 토큰을 `.env`의 `TELEGRAM_BOT_TOKEN`에 입력합니다. Telegram 채널 어댑터를 애플리케이션의 보고 스케줄러와 연결하면 주기 보고를 보낼 수 있습니다.
@@ -139,6 +155,22 @@ Then open `http://localhost:8787`. Node.js 22.5 or later and npm are required.
 4. Start Orbit with `npm start`.
 
 Orbit does not store your Codex CLI credentials.
+
+### Terminal configuration commands
+
+Run the interactive setup wizard to configure the Codex executable, Codex arguments, default model, SQLite path, Telegram bot token, and browser mode.
+
+```bash
+npm run setup
+npm run doctor
+npm start
+```
+
+If a Telegram token is configured, test the bot connection with:
+
+```bash
+npm run telegram:test
+```
 
 ### Connect Telegram
 
