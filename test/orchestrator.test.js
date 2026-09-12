@@ -1,0 +1,3 @@
+import test from 'node:test'; import assert from 'node:assert/strict'; import {Orchestrator} from '../src/orchestrator.js';
+test('starts a goal with bounded settings',()=>{const o=new Orchestrator({provider:{run:async()=>({text:'ok',tokens:1})}});const r=o.start({id:'r',goal:'test',tokenLimit:2,minutes:1,reportEvery:1});assert.equal(r.status,'running');assert.equal(o.state().agents.length,1);o.stop('r')});
+test('approval decisions are restricted',()=>{const o=new Orchestrator({provider:{run:async()=>({text:'x',approval:'login'})}});const r=o.start({id:'r2',goal:'test',minutes:1,reportEvery:1});const id=[...o.approvals.keys()][0];assert.ok(!id);o.stop(r.id)});
