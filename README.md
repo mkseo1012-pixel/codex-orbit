@@ -33,6 +33,29 @@ npm start
 
 브라우저에서 `http://localhost:8787`을 엽니다. 단일 파일 데모는 `one-liner.html`을 브라우저에서 직접 열 수 있습니다.
 
+### 터미널 한 줄 설치
+
+GitHub 저장소를 내려받아 설치하려면 다음 명령을 실행하세요.
+
+```bash
+git clone https://github.com/mkseo1012-pixel/codex-orbit.git && cd codex-orbit && npm install && cp .env.example .env && npm start
+```
+
+실행 후 `http://localhost:8787`에 접속합니다. `Node.js 22.5 이상`과 `npm`이 필요합니다.
+
+### Codex 연결
+
+1. 로컬 컴퓨터에 Codex CLI를 설치하고 로그인합니다.
+2. `codex` 명령이 터미널에서 실행되는지 확인합니다.
+3. `.env`의 `CODEX_BIN`, `CODEX_ARGS`, `DEFAULT_MODEL`을 환경에 맞게 설정합니다.
+4. `npm start`로 Orbit를 실행합니다.
+
+Codex CLI 인증 정보는 Orbit가 저장하지 않습니다.
+
+### Telegram 연결
+
+BotFather에서 Telegram 봇을 만든 뒤 발급받은 토큰을 `.env`의 `TELEGRAM_BOT_TOKEN`에 입력합니다. Telegram 채널 어댑터를 애플리케이션의 보고 스케줄러와 연결하면 주기 보고를 보낼 수 있습니다.
+
 ### 환경변수
 
 ```env
@@ -97,6 +120,29 @@ npm start
 ```
 
 Open `http://localhost:8787` in your browser. The single-file demo is available as `one-liner.html`.
+
+### One-line installation
+
+Run the following command to clone, install, configure, and start Codex Orbit:
+
+```bash
+git clone https://github.com/mkseo1012-pixel/codex-orbit.git && cd codex-orbit && npm install && cp .env.example .env && npm start
+```
+
+Then open `http://localhost:8787`. Node.js 22.5 or later and npm are required.
+
+### Connect Codex
+
+1. Install and authenticate the Codex CLI on your computer.
+2. Confirm that the `codex` command works in your terminal.
+3. Configure `CODEX_BIN`, `CODEX_ARGS`, and `DEFAULT_MODEL` in `.env`.
+4. Start Orbit with `npm start`.
+
+Orbit does not store your Codex CLI credentials.
+
+### Connect Telegram
+
+Create a Telegram bot with BotFather and put its token in `TELEGRAM_BOT_TOKEN` in `.env`. The Telegram channel adapter can then be connected to the report scheduler for periodic updates.
 
 ### Security
 
