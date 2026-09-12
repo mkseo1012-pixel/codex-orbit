@@ -1,0 +1,3 @@
+export const DEFAULT_PERMISSIONS={browser:true,filesystem:'workspace',network:true,subagents:true,login:false,accountCreation:false,publishing:false,payments:false,destructive:false};
+export function normalizePermissions(input={}){const p={...DEFAULT_PERMISSIONS,...input};if(!['workspace','read-only','none'].includes(p.filesystem))throw Error('filesystem must be workspace, read-only, or none');for(const k of ['browser','network','subagents','login','accountCreation','publishing','payments','destructive'])if(typeof p[k]!=='boolean')throw Error(`${k} permission must be boolean`);return p}
+export function can(p,action){const map={login:'login',create_account:'accountCreation',publish:'publishing',pay:'payments',delete:'destructive'};return p[map[action]||action]===true}
