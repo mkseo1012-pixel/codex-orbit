@@ -68,6 +68,14 @@ Telegram 토큰이 설정된 경우 연결 상태를 확인할 수 있습니다.
 npm run telegram:test
 ```
 
+Create a recurring goal from the terminal. The current scheduler accepts interval cron expressions such as `*/10 * * * *`.
+
+```bash
+npm run schedule -- --goal "Prepare a daily social media report" --cron "*/10 * * * *" --model "gpt-5-codex" --minutes 60 --tokens 20000
+```
+
+Run permissions are configured with a `permissions` object. Available controls include `browser`, `network`, `subagents`, `login`, `accountCreation`, `publishing`, `payments`, `destructive`, and `filesystem` (`workspace`, `read-only`, or `none`). High-impact permissions are disabled by default.
+
 ### Telegram 연결
 
 BotFather에서 Telegram 봇을 만든 뒤 발급받은 토큰을 `.env`의 `TELEGRAM_BOT_TOKEN`에 입력합니다. Telegram 채널 어댑터를 애플리케이션의 보고 스케줄러와 연결하면 주기 보고를 보낼 수 있습니다.
@@ -171,6 +179,14 @@ If a Telegram token is configured, test the bot connection with:
 ```bash
 npm run telegram:test
 ```
+
+Create a recurring goal from the terminal. The current scheduler accepts interval cron expressions such as `*/10 * * * *`.
+
+```bash
+npm run schedule -- --goal "Prepare a daily social media report" --cron "*/10 * * * *" --model "gpt-5-codex" --minutes 60 --tokens 20000
+```
+
+Run permissions are configured with a `permissions` object. Available controls include `browser`, `network`, `subagents`, `login`, `accountCreation`, `publishing`, `payments`, `destructive`, and `filesystem` (`workspace`, `read-only`, or `none`). High-impact permissions are disabled by default.
 
 ### Connect Telegram
 
