@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { spawn } from 'node:child_process';
+import readline from 'node:readline/promises';
+import { stdin as input, stdout as output } from 'node:process';
+
+const file='.env';
+const defaults={PORT:'8787',CODEX_BIN:'codex',CODEX_ARGS:'exec --json --sandbox workspace-write',DEFAULT_MODEL:'gpt-5-codex',SQLITE_PATH:'./data/orbit.sqlite',TELEGRAM_BOT_TOKEN:'',PLAYWRIGHT_HEADLESS:'true'};
+const parse=s=>Object.fromEntries(s.split(/\r?\n/).filter(x=>x&&!x.startsWith('#')).map(x=>{const i=x.indexOf('=');return [x.slice(0,i),x.slice(i+1)]}));
+const quote=s=>/[^A-Za-z0-9_./:@%+,-]/.test(s)?JSON.stringify(s):s;
+async function setup(){const old=existsSync(file)?parse(readFileSync(file,'utf8')):{};const rl=readline.createInterface({input,output});const ask=async(k,label,secret=false)=>{const v=(await rl.question(`${label} [${old[k]||defaults[k]||''}]${secret?' (입력하지 않으면 유지)': ''}: `)).trim();return v||old[k]||defaults[k]||''};try{const env={PORT:await ask('PORT','포트'),CODEX_BIN:await ask('CODEX_BIN','Codex 실행 파일'),CODEX_ARGS:await ask('CODEX_ARGS','Codex 인자'),DEFAULT_MODEL:await ask('DEFAULT_MODEL','기본 모델'),SQLITE_PATH:await ask('SQLITE_PATH','SQLite 경로'),TELEGRAM_BOT_TOKEN:await ask('TELEGRAM_BOT_TOKEN','Telegram Bot 토큰',true),PLAYWRIGHT_HEADLESS:await ask('PLAYWRIGHT_HEADLESS','브라우저 headless 여부')};writeFileSync(file,Object.entries(env).map(([k,v])=>`${k}=${quote(v)}`).join('\n')+'\n',{mode:0o600});console.log(`\n.env 저장 완료 (${file}). 비밀값은 출력하지 않았습니다.`);console.log('다음 명령: npm run doctor && npm start')}finally{rl.close()}}
+function command(bin,args){return new Promise(resolve=>{const p=spawn(bin,args,{stdio:['ignore','pipe','pipe']});let out='';p.stdout.on('data',d=>out+=d);p.on('error',()=>resolve({ok:false,out}));p.on('close',code=>resolve({ok:code===0,out}))})}
+async function doctor(){const env={...defaults,...(existsSync(file)?parse(readFileSync(file,'utf8')):{})};console.log('Codex Orbit configuration');console.log(`- .env: ${existsSync(file)?'found':'missing'}`);console.log(`- model: ${env.DEFAULT_MODEL}`);console.log(`- SQLite: ${env.SQLITE_PATH}`);const c=await command(env.CODEX_BIN,['--version']);console.log(`- Codex CLI: ${c.ok?'ready':'not found'}${c.ok?'':' (set CODEX_BIN)'}`);console.log(`- Telegram: ${env.TELEGRAM_BOT_TOKEN?'token configured':'not configured'}`);console.log(`- Playwright mode: ${env.PLAYWRIGHT_HEADLESS}`);if(!c.ok)process.exitCode=1}
+async function telegramTest(){const env={...defaults,...(existsSync(file)?parse(readFileSync(file,'utf8')):{})};if(!env.TELEGRAM_BOT_TOKEN)return console.error('Telegram token이 없습니다. npm run setup을 실행하세요.');const r=await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/getMe`);const x=await r.json();console.log(x.ok?'Telegram Bot 연결 성공':'Telegram 연결 실패');if(!x.ok)process.exitCode=1}
+const action=process.argv[2]||'help';if(action==='setup')await setup();else if(action==='doctor')await doctor();else if(action==='telegram-test')await telegramTest();else console.log('사용법: npm run setup | npm run doctor | npm run telegram:test');
