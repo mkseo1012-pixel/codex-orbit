@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Open-source, approval-first autonomous goal agent platform with Codex and model adapters.",
   "type": "module",
-  "scripts": { "start": "node src/server.js", "test": "node --test" },
+  "scripts": { "start": "node src/server.js", "setup": "node src/cli.js setup", "doctor": "node src/cli.js doctor", "telegram:test": "node src/cli.js telegram-test", "test": "node --test" },
   "engines": { "node": ">=22.5" },
   "license": "Apache-2.0",
   "dependencies": { "playwright": "^1.55.0" }
